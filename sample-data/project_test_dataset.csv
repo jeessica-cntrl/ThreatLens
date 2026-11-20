@@ -1,0 +1,11 @@
+id,input_type,content,expected_risk_level,expected_category,triggered_rules_description,,
+1,URL,https://www.example.edu/courses/cs302,Low,Legitimate HTTPs URL,Valid HTTPs protocol, standard domain layout, clean URL path.
+2,URL,http://192.168.1.50/portal/update,High,Suspicious URL (IP Address Host),Uses unencrypted HTTP; Hostname is a raw IP address instead of a domain name.,,
+3,URL,http://brand.account-security.example-portal.net/login,High,Suspicious URL (Subdomain Misdirection),Uses unencrypted HTTP; Multiple nested subdomains and misleading domain structure.,,
+4,URL,http://user:token@secure-portal.net/auth,High,Suspicious URL (Authority Special Character),Uses unencrypted HTTP; Contains @ symbol in URL authority section.,,
+5,URL,http://www.example-news-blog.org/articles/guide.html,Medium,Medium Risk URL (Unencrypted HTTP),Uses unencrypted HTTP protocol; standard domain structure otherwise.,,
+6,MESSAGE,Your lab appointment is confirmed for tomorrow at 2:00 PM. Reply 1 to confirm.,Low,Legitimate Message,Standard transactional message; no urgency cues or threat indicators.,,
+7,MESSAGE,Notice: Account verification required within 24 hours. Visit http://192.168.1.50/verify to prevent suspension.,High,Suspicious Message (Urgency + Suspension Indicator),Urgent time window (24 hours); Account suspension threat; Contains IP-based URL.,,
+8,MESSAGE,Please review your weekly account digest and notification settings.,Medium,Medium Risk Message (Mild Urgency),General notification statement; no immediate suspension threats or code requests.,,
+9,URL,ht!tp://invalid_url_format.com/test,Not Verified,Malformed URL Input,Invalid URL scheme syntax; triggers input validation error.,,
+10,MESSAGE,,Not Verified,Empty Input Error,Empty input string; risk evaluation aborted.,,
