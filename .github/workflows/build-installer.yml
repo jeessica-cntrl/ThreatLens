@@ -1,0 +1,22 @@
+name: Build Windows installer
+on:
+  workflow_dispatch:
+  push:
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with: { distribution: temurin, java-version: '21', cache: maven }
+      - run: mvn -B package
+      - name: Package ThreatLens-Setup.exe
+        shell: cmd
+        run: |
+          set PATH=%PATH%;C:\Program Files (x86)\WiX Toolset v3.14\bin
+          mkdir dist
+          copy target\threatlens.jar dist\
+          jpackage --type exe --name ThreatLens --app-version 1.0.0 --vendor ThreatLens --input dist --main-jar threatlens.jar --main-class threatlens.ui.Launcher --dest installer --win-menu --win-shortcut --win-dir-chooser --win-per-user-install
+          move installer\ThreatLens-1.0.0.exe installer\ThreatLens-Setup.exe
+      - uses: actions/upload-artifact@v4
+        with: { name: ThreatLens-Setup, path: installer/ThreatLens-Setup.exe }
